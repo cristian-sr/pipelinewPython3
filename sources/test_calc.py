@@ -1,29 +1,41 @@
-'''
-The 'calc' library contains the 'add2' function that takes 2 values and adds
-them together. If either value is a string (or both of them are) 'add2' ensures
-they are both strings, thereby resulting in a concatenated result.
-NOTE: If a value submitted to the 'add2' function is a float, it must be done so
-in quotes (i.e. as a string).
-'''
+import unittest
+import calc
 
-# If 'value' is not an integer, conver it to a float and failing that, a string.
-def conv(value):
-    try:
-        return int(value)
-    except ValueError:
-        try:
-            return float(value)
-        except ValueError:
-            return str(value)
+class TestCalc(unittest.TestCase):
+    """
+    Test that the addition of two integers returns the correct total
+    """
+    
+    def test_add_integers(self):
+        """
+        Test that the addition of two integers resturns the correct total
+        """
+        result = calc.add2(1, 2)
+        self.assertEqual(result, 3)
 
-# The 'add2' function itself
-def add2(arg1, arg2):
-    # Convert 'arg1 and 'arg2' to their appropriate types
-    arg1conv = conv(arg1)
-    arg2conv = conv(arg2)
-    # If either 'arg1' or 'arg2' is a string, ensure they're both strings.
-    if isinstance(arg1conv, str) or isinstance(arg2conv, str):
-        arg1conv = str(arg1conv)
-        arg2conv = str(arg2conv)
-    return arg1conv + arg2conv
+    def test_add_floats(self):
+        """
+        Test that the addition of two floats returns the correct result
+        """
+        result = calc.add2('10.5', 2)
+        self.assertEqual(result, 12.5)
+
+    def test_add_strings(self):
+        """
+        Test the addition of two strings returns the two strings as one
+        concatenated string
+        """
+        result = calc.add2('abc', 'def')
+        self.assertEqual(result, 'abcdef')
+    
+    def test_add_string_and_integer(self):
+        """
+        Test the addition of a string and an integer returns them as one
+        concatenated string (in which the integer is converted to a string)
+        """
+        result = calc.add2('abc', '5.5')
+        self.assertEqual(result, 'abc5.5')
+
+if __name__ == '__main__':
+    unittest.main()
     
